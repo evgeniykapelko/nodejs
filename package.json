@@ -1,0 +1,7 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Evgeniy Kapelko <eugene.kapelko@balanceinternet.com.au>",
+  "license": "MIT"
+}

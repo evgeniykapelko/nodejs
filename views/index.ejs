@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Document</title>
-</head>
-<body>  
-    <a href="/create">Add</a>
-    <ul>
-        <% posts.forEach(function(post) { %>
-        <li>
-            <b><%= post.title %></b>
-            <i><%= post.body %></i>
-
-        </li>
-        <% }); %>
-    </ul>
-</body>
-</html>
+<%- include('./layout/header.ejs') %>
+    <h3>Hello</h3>
+<%- include('./layout/footer.ejs') %>

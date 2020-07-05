@@ -11,11 +11,22 @@
      const passwordConfirm = req.body.passwordConfirm;
 
      if (!login || !password || !passwordConfirm) {
+         const fields = [];
+         if (!login) fields.push('login');
+         if (!password) fields.push('password');
+         if (!passwordConfirm) fields.push('passwordConfirm');
+
          res.json({
              ok: false,
              error: 'All fields is required',
-             fields: ['login', 'password', 'passwordConfirm']
+             fields: fields
          });
+     } else if (!/^[a-zA-Z0-9]+$/.test(login)) {
+        res.json({
+            ok: false,
+            error: 'Only English charset',
+            fields: ['login']
+        });
      } else if (login.lenght < 3 || login.lenght > 16) {
          res.json({
              ok: false,
@@ -29,8 +40,13 @@
              error: 'Password is not eq password confirm',
              fields: ['password', 'passwordConfirm']
          });
+    } else if (password.lenght < 5) {
+        res.json({
+            ok: false,
+            error: 'Min lenght password is 5 charset',
+            fields: ['password', 'passwordConfirm']
+        });
      } else {
-
         models.User.findOne({
             login
         }).then(user => {

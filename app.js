@@ -4,6 +4,8 @@ const path = require('path');
 const staticAsset = require('static-asset');
 const config = require('./config');
 const mongoose = require('mongoose');
+const routes = require('./routes');
+
 
 // database
 mongoose.Promise = global.Promise;
@@ -15,7 +17,11 @@ mongoose.connection
         const info = mongoose.connections[0];
         console.log(`Connected to ${info.host}:${info.port}/${info.name}`);
     });
-mongoose.connect(config.MONGO_URL, { useUnifiedTopology: true,  useNewUrlParser: true});    
+mongoose.connect(config.MONGO_URL, {
+    useCreateIndex: true, 
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+});    
 
 // express
 const app = express();
@@ -23,6 +29,7 @@ const app = express();
 // sets and uses
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(staticAsset(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
@@ -34,6 +41,7 @@ app.use(
 app.get('/', (req, res) => {
     res.render('index');
 });
+app.use('/api/auth', routes.auth);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

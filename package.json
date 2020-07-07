@@ -36,6 +36,9 @@
     "jquery": "^3.5.1",
     "medium-editor": "^5.23.3",
     "mongoose": "^5.9.21",
-    "static-asset": "^0.6.0"
+    "mongoose-url-slugs": "^1.0.2",
+    "static-asset": "^0.6.0",
+    "tr": "^1.1.2",
+    "turndown": "^6.0.0"
   }
 }

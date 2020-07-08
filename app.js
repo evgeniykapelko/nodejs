@@ -5,6 +5,7 @@ const staticAsset = require('static-asset');
 const config = require('./config');
 const mongoose = require('mongoose');
 const routes = require('./routes');
+
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
@@ -18,6 +19,7 @@ mongoose.connection
     .once('open', () => {
         const info = mongoose.connections[0];
         console.log(`Connected to ${info.host}:${info.port}/${info.name}`);
+        require('./mocks')();
     });
 mongoose.connect(config.MONGO_URL, {
     useCreateIndex: true, 

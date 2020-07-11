@@ -23,12 +23,45 @@ function posts(req, res) {
                    login: userLogin
                 }
             });
-        }).catch(console.log);
+        }).catch(() => {
+            throw new Error('Server Error');
+        });
     }).catch(console.log);
 }
 
 // routers
 router.get('/', (req, res) => posts(req, res));
 router.get('/archive/:page', (req, res) => posts(req, res));
+
+router.get('/posts/:post', (req, res, next) => {
+    const url = req.params.post.trim().replace(/ +(?= )/g, '');
+    const userId = req.session.userId;
+    const userLogin = req.session.userLogin;
+
+    if (!url) {
+        const err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    } else {
+        models.Post.findOne({
+            url
+        }).then(post => {
+            if (!post) {
+                const err = new Error('Not Found');
+                err.status = 404;
+                next(err);
+            } else {
+                res.render('post/post', {
+                    posts,
+                    user: {
+                        id: userId,
+                        login: userLogin
+                    }
+                });
+            }
+        })
+    }
+});
+
 
 module.exports = router;
